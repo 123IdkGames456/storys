@@ -1,0 +1,97 @@
+{
+  "id": "bats-zombie-apocalypse",
+  "title": "Bats: Zombie Apocalypse",
+  "description": "An ongoing survival story following Bats, a 16-year-old bat and former member of a hitman organization, through a zombie apocalypse.",
+  "seasons": [
+    {
+      "title": "Season 1 — The Beginning",
+      "episodes": [
+        {
+          "title": "Episode 1 — Before Everything",
+          "content": "EPISODE OUTLINE — This is the opening and backstory of Bats. Before the outbreak, Bats is a 16-year-old bat who has become a professional member of a hitman organization. During a job, he is caught. While trying to get away, his wing is shot, leaving him unable to fly. He is taken to prison. Then the zombie apocalypse begins. In the chaos, a zombie approaches the bars of his cell. Bats uses his injured wing to smash a break-resistant window. The attempt costs him the wing: it is badly damaged and comes away, leaving him with one wing missing and the other injured. He gets out of his cell, but he is still inside the prison. The episode introduces his past, his personality and the beginning of the new world."
+        },
+        {
+          "title": "Episode 2 — The Prison",
+          "content": "EPISODE OUTLINE — Bats begins trying to escape the prison itself. The building is in chaos. The normal rules and routines have stopped working, and Bats has to work out which routes are still passable. His injuries make movement harder. He does not know what is happening beyond the prison walls, and every new sound makes the situation less certain."
+        },
+        {
+          "title": "Episode 3 — The Other Prisoners",
+          "content": "EPISODE OUTLINE — Bats encounters other prisoners who have survived the first outbreak. Some are frightened, some are desperate, and some may be dangerous. Bats has to decide whether cooperation is worth the risk. The episode focuses on tense conversations, clashing personalities and the difficulty of trusting strangers."
+        },
+        {
+          "title": "Episode 4 — Outside",
+          "content": "EPISODE OUTLINE — Bats finally gets out of the prison. The outside world is damaged and unfamiliar. He sees signs that the outbreak is much larger than the prison. He has no reliable information, no clear destination and no guarantee that the streets are safe."
+        },
+        {
+          "title": "Episode 5 — First Night",
+          "content": "EPISODE OUTLINE — Bats needs a place to spend the night. He searches for temporary shelter and learns that surviving after dark brings different problems. The episode gives space to his thoughts, exhaustion and the reality of living with his injuries."
+        },
+        {
+          "title": "Episode 6 — Another Survivor",
+          "content": "EPISODE OUTLINE — Bats meets another survivor. They are cautious around each other and do not immediately become friends. Their first interaction is awkward and uncertain. They each have their own priorities, and they must decide whether travelling together makes sense."
+        },
+        {
+          "title": "Episode 7 — Supplies",
+          "content": "EPISODE OUTLINE — The survivors need basic supplies. A simple search takes longer than expected and forces them to deal with practical problems, disagreements and the unpredictable environment. The focus is on choices and consequences rather than constant fighting."
+        },
+        {
+          "title": "Episode 8 — The Quiet Days",
+          "content": "EPISODE OUTLINE — A calmer episode. Bats and his companion have time to talk, rest and learn about each other. There are small jokes and ordinary moments, but the apocalypse is still present in the background. Their friendship begins to develop naturally."
+        },
+        {
+          "title": "Episode 9 — Somewhere to Go",
+          "content": "EPISODE OUTLINE — Bats and his companion learn about a possible place where they could stay. They consider whether it is worth travelling there. The route and the unknown people or dangers along the way make the decision difficult."
+        },
+        {
+          "title": "Episode 10 — Temporary Home",
+          "content": "EPISODE OUTLINE — Bats reaches the possible shelter with his companion. They work out whether it can serve as a temporary home and what needs to change before they can settle in. The season's goal is resolved, but this is not the end of the story. The world continues beyond the final scene."
+        }
+      ]
+    },
+    {
+      "title": "Season 2 — New Problems",
+      "episodes": [
+        {
+          "title": "Episode 1 — Settling In",
+          "content": "EPISODE OUTLINE — Bats starts adjusting to life at the temporary shelter. The survivors organize their space and try to establish routines. Bats finds it difficult to get used to a life without the constant demands he knew before. Small habits and everyday conversations show how the group is changing."
+        },
+        {
+          "title": "Episode 2 — More People",
+          "content": "EPISODE OUTLINE — Bats and the others encounter another group of survivors. The meeting raises questions about trust, boundaries and whether the shelter has room for more people. The newcomers have their own needs and opinions."
+        },
+        {
+          "title": "Episode 3 — New Faces",
+          "content": "EPISODE OUTLINE — Bats gets to know the newcomers. Some connections begin to form, while other personalities clash. The episode develops the supporting cast and gives each person their own point of view."
+        },
+        {
+          "title": "Episode 4 — The Problem",
+          "content": "EPISODE OUTLINE — A problem at the shelter disrupts the group's routine. The survivors disagree about what caused it and how to respond. Bats has to listen, think and help the group make a decision."
+        },
+        {
+          "title": "Episode 5 — A Normal Day",
+          "content": "EPISODE OUTLINE — A mostly peaceful day with the group. Bats spends time with his friends, shares jokes and takes part in ordinary tasks. The episode shows that life is not made up only of emergencies, and gives the characters room to feel like people."
+        },
+        {
+          "title": "Episode 6 — Missing",
+          "content": "EPISODE OUTLINE — Someone from the group is missing. The others notice that the person's absence is unusual, and uncertainty spreads through the shelter. The episode ends with the group deciding what they know and what they still need to find out."
+        },
+        {
+          "title": "Episode 7 — The Search",
+          "content": "EPISODE OUTLINE — Bats and the others search for the missing person. The search tests their patience and their trust in one another. They discover information that changes what they thought had happened."
+        },
+        {
+          "title": "Episode 8 — Bad News",
+          "content": "EPISODE OUTLINE — The group learns that the shelter may not be as safe as they believed. Different survivors suggest different solutions. Fear and disagreement make it harder to decide what to do."
+        },
+        {
+          "title": "Episode 9 — The Decision",
+          "content": "EPISODE OUTLINE — Bats helps the group weigh the risks of staying against the risks of leaving. No option is perfect, and not everyone agrees. The characters have to decide what matters most to them."
+        },
+        {
+          "title": "Episode 10 — A Different Direction",
+          "content": "EPISODE OUTLINE — The group acts on its decision and resolves the season's goal. Their circumstances change, but Bats' story continues. The final scene introduces an unresolved mystery that may become important in Season 3, without ending the overall series."
+        }
+      ]
+    }
+  ]
+}
