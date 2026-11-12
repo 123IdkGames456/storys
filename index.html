@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111318">
+<title>Storys</title>
+<style>
+:root{color-scheme:dark;--bg:#101116;--panel:#191b23;--panel2:#222530;--text:#f3f4f8;--muted:#a4a8b5;--accent:#a78bfa;--line:#303340}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+button,select{font:inherit;color:inherit}button{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px 14px;cursor:pointer}button:hover{border-color:var(--accent)}button.primary{background:var(--accent);color:#171321;border-color:var(--accent);font-weight:700}button:disabled{opacity:.45;cursor:not-allowed}
+header{padding:22px max(20px,calc((100vw - 1100px)/2));border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:1.35rem;font-weight:800;letter-spacing:.3px}.brand span{color:var(--accent)}main{max-width:1100px;margin:auto;padding:26px 20px 60px}
+h1,h2,h3,p{margin-top:0}.muted{color:var(--muted)}.hidden{display:none!important}
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;margin-top:22px}
+.book-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;min-height:190px;display:flex;flex-direction:column;align-items:flex-start}
+.book-cover{width:100%;height:100px;border-radius:12px;background:linear-gradient(135deg,#514078,#252a42);display:grid;place-items:center;font-size:2.3rem;margin-bottom:16px}
+.book-card p{color:var(--muted);font-size:.92rem}.book-card button{margin-top:auto}
+.reader{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:start}
+.sidebar,.reading-panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
+.sidebar select,.toolbar select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;margin:7px 0 15px}
+.episode-list{display:grid;gap:7px}.episode-list button{text-align:left;width:100%;background:transparent}.episode-list button.active{border-color:var(--accent);background:#a78bfa18}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}.toolbar select{width:auto;min-width:180px;margin:0}
+.reading-panel{min-height:430px}.reader-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.story-text{font-size:1.25rem;line-height:2.15;letter-spacing:.01em;margin:28px 0;overflow-wrap:anywhere}
+.story-word{border-radius:5px;padding:1px 2px;cursor:pointer}.story-word:hover{background:#a78bfa33}.story-word.current{background:#a78bfa55;outline:1px solid var(--accent)}
+.progress-wrap{height:7px;background:var(--panel2);border-radius:20px;overflow:hidden;margin:12px 0}.progress-bar{height:100%;width:0;background:var(--accent);transition:width .15s}
+.small{font-size:.88rem;color:var(--muted)}.controls{display:flex;flex-wrap:wrap;gap:8px}.status{min-height:24px;color:var(--muted);font-size:.9rem}
+@media(max-width:700px){header{padding:16px 18px}.reader{grid-template-columns:1fr}.sidebar{order:0}.reading-panel{order:1}.story-text{font-size:1.15rem}.toolbar select{flex:1}}
+</style>
+</head>
+<body>
+<header><div class="brand">Story<span>s</span></div><button id="homeBtn">All books</button></header>
+<main>
+<section id="library">
+<h1>Browse books</h1><p class="muted">Choose a book to open its seasons and episodes.</p>
+<div id="bookGrid" class="book-grid"></div>
+</section>
+<section id="bookReader" class="hidden">
+<div class="reader">
+<aside class="sidebar">
+<button id="backBtn">← Back to books</button>
+<h2 id="bookTitle" style="margin:20px 0 4px">Book</h2><p id="bookDescription" class="muted"></p>
+<label for="seasonSelect">Season</label><select id="seasonSelect"></select>
+<h3>Episodes</h3><div id="episodeList" class="episode-list"></div>
+</aside>
+<article class="reading-panel">
+<div class="reader-top"><div><h2 id="episodeTitle" style="margin-bottom:2px">Choose an episode</h2><div class="small" id="episodeMeta"></div></div><button id="continueBtn">Continue reading</button></div>
+<div class="toolbar">
+<select id="voiceSelect" aria-label="Choose text to speech voice"><option value="">Loading voices…</option></select>
+<button id="playBtn" class="primary">▶ Play</button><button id="pauseBtn">Ⅱ Pause</button><button id="stopBtn">■ Stop</button>
+</div>
+<div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+<div class="small" id="progressLabel">Progress saved on this device</div>
+<div id="storyText" class="story-text">Choose a season and episode to start reading.</div>
+<div class="controls"><button id="saveBtn">Save position here</button><button id="startBtn">Start from beginning</button></div>
+<p class="status" id="status" aria-live="polite"></p>
+</article>
+</div>
+</section>
+</main>
+<script>
+const BOOKS=[{id:"test-book",file:"books/test-book.json"}];
+const $=id=>document.getElementById(id);
+let book=null,seasonIndex=0,episodeIndex=0,words=[],position=0,utterance=null,playing=false,voices=[];
+const storageKey=()=> "storys-progress:"+book.id+":"+seasonIndex+":"+episodeIndex;
+function saved(){try{return JSON.parse(localStorage.getItem(storageKey()))||{word:0}}catch{return {word:0}}}
+function savePosition(n){position=Math.max(0,Math.min(n,Math.max(0,words.length-1)));localStorage.setItem(storageKey(),JSON.stringify({word:position}));renderWords();updateProgress();$("status").textContent="Saved at word "+(position+1)+"."}
+function updateProgress(){let pct=words.length?((position+1)/words.length)*100:0;$("progressBar").style.width=pct+"%";$("progressLabel").textContent=words.length?"Word "+(position+1)+" of "+words.length+" · saved on this device":"Progress saved on this device"}
+function renderWords(){const box=$("storyText");box.innerHTML="";words.forEach((word,i)=>{const span=document.createElement("span");span.className="story-word"+(i===position?" current":"");span.textContent=word;span.title="Tap to save your place";span.addEventListener("click",()=>{stopSpeech();savePosition(i)});box.appendChild(span);box.appendChild(document.createTextNode(i===words.length-1?"":" "))})}
+function showLibrary(){stopSpeech();$("library").classList.remove("hidden");$("bookReader").classList.add("hidden")}
+function showReader(){ $("library").classList.add("hidden");$("bookReader").classList.remove("hidden")}
+function makeBookCard(b){const card=document.createElement("div");card.className="book-card";const cover=document.createElement("div");cover.className="book-cover";cover.textContent="📖";const title=document.createElement("h3");title.textContent=b.title;const desc=document.createElement("p");desc.textContent=b.description;const btn=document.createElement("button");btn.className="primary";btn.textContent="Open book";btn.addEventListener("click",()=>openBook(b));card.append(cover,title,desc,btn);$("bookGrid").appendChild(card)}
+async function openBook(info){try{const res=await fetch(info.file);if(!res.ok)throw Error("Could not load "+info.file);book=await res.json();$("bookTitle").textContent=book.title;$("bookDescription").textContent=book.description||"";$("seasonSelect").innerHTML="";book.seasons.forEach((s,i)=>{const o=document.createElement("option");o.value=i;o.textContent=s.title||"Season "+(i+1);$("seasonSelect").appendChild(o)});seasonIndex=0;episodeIndex=0;showReader();loadSeason();}catch(e){alert("Could not open book: "+e.message)}}
+function loadSeason(){seasonIndex=Number($("seasonSelect").value);$("episodeList").innerHTML="";book.seasons[seasonIndex].episodes.forEach((ep,i)=>{const b=document.createElement("button");b.textContent=ep.title||"Episode "+(i+1);b.className=i===episodeIndex?"active":"";b.addEventListener("click",()=>loadEpisode(i));$("episodeList").appendChild(b)});loadEpisode(episodeIndex)}
+function loadEpisode(i){stopSpeech();episodeIndex=i;const ep=book.seasons[seasonIndex].episodes[i];$("episodeTitle").textContent=ep.title||"Episode "+(i+1);$("episodeMeta").textContent=(book.seasons[seasonIndex].title||"Season "+(seasonIndex+1))+" · Episode "+(i+1);words=(ep.content||"").trim().split(/\s+/).filter(Boolean);position=saved().word||0;position=Math.min(position,Math.max(0,words.length-1));renderWords();updateProgress();[...$("episodeList").children].forEach((b,j)=>b.classList.toggle("active",j===i));$("status").textContent="Tap any word to save your place."}
+function loadVoices(){voices=speechSynthesis.getVoices();const select=$("voiceSelect"),old=select.value;select.innerHTML="";if(!voices.length){const o=document.createElement("option");o.textContent="No voices available";o.value="";select.appendChild(o);return}voices.forEach((v,i)=>{const o=document.createElement("option");o.value=String(i);o.textContent=v.name+" ("+v.lang+")";select.appendChild(o)});if(old&&voices[Number(old)])select.value=old}
+function stopSpeech(){if("speechSynthesis"in window)speechSynthesis.cancel();playing=false;utterance=null}
+function playSpeech(){if(!("speechSynthesis"in window)){ $("status").textContent="Text-to-speech is not supported in this browser.";return}if(!words.length)return;stopSpeech();const text=words.slice(position).join(" ");utterance=new SpeechSynthesisUtterance(text);const v=voices[Number($("voiceSelect").value)];if(v)utterance.voice=v;utterance.onboundary=e=>{if(e.name==="word"){const spoken=text.slice(0,e.charIndex);const count=(spoken.match(/\S+/g)||[]).length;position=Math.min(words.length-1,position+count);localStorage.setItem(storageKey(),JSON.stringify({word:position}));renderWords();updateProgress()}};utterance.onend=()=>{position=words.length-1;localStorage.setItem(storageKey(),JSON.stringify({word:position}));renderWords();updateProgress();playing=false;$("status").textContent="Episode finished."};utterance.onerror=()=>{playing=false;$("status").textContent="Speech stopped. You can continue from the saved word."};playing=true;$("status").textContent="Reading aloud…";speechSynthesis.speak(utterance)}
+$("seasonSelect").addEventListener("change",()=>{episodeIndex=0;loadSeason()});
+$("playBtn").addEventListener("click",playSpeech);
+$("pauseBtn").addEventListener("click",()=>{if(speechSynthesis.speaking){speechSynthesis.pause();playing=false;$("status").textContent="Paused. Press Play to continue."}});
+$("stopBtn").addEventListener("click",()=>{stopSpeech();$("status").textContent="Stopped. Your last saved position is kept."});
+$("saveBtn").addEventListener("click",()=>{stopSpeech();savePosition(position)});
+$("startBtn").addEventListener("click",()=>{stopSpeech();savePosition(0)});
+$("continueBtn").addEventListener("click",()=>{position=saved().word||0;renderWords();updateProgress();$("status").textContent="Continued from word "+(position+1)+"."});
+$("backBtn").addEventListener("click",showLibrary);$("homeBtn").addEventListener("click",showLibrary);
+$("voiceSelect").addEventListener("change",()=>{if(playing)playSpeech()});
+if("speechSynthesis"in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+BOOKS.forEach(makeBookCard);
+</script>
+</body>
+</html>
