@@ -60,7 +60,7 @@ h1,h2,h3,p{margin-top:0}.muted{color:var(--muted)}.hidden{display:none!important
 </section>
 </main>
 <script>
-const BOOKS=[{id:"test-book",file:"books/test-book.json"}];
+const BOOKS=[];
 const $=id=>document.getElementById(id);
 let book=null,seasonIndex=0,episodeIndex=0,words=[],position=0,utterance=null,playing=false,voices=[];
 const storageKey=()=> "storys-progress:"+book.id+":"+seasonIndex+":"+episodeIndex;
